@@ -72,7 +72,7 @@ const WORKFLOW = [
   { step: '01', title: 'Onboard your factory', desc: 'Your compliance officer gets login access. Walk through a guided setup checklist in under 30 minutes.' },
   { step: '02', title: 'Upload worker records', desc: 'Import workers, upload NID scans and contracts. NID verification status updates automatically on your audit checklist.' },
   { step: '03', title: 'Track certificates & wages', desc: 'Add certs with expiry dates. Log monthly wages. Violations and near-expiry alerts surface automatically.' },
-  { step: '04', title: 'Run mock audit anytime', desc: 'Your BSCI/WRAP readiness score updates live. Export a full audit pack as PDF — ready for any buyer's auditor.' },
+  { step: "04", title: "Run mock audit anytime", desc: "Your BSCI/WRAP readiness score updates live. Export a full audit pack as PDF — ready for any buyer's auditor." },
 ]
 
 const PLANS = [
