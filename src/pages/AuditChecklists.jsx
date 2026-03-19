@@ -3,6 +3,7 @@ import { useApp } from '../store/AppContext'
 import { useToast } from '../hooks/useToast'
 import { useAttachments } from '../hooks/useAttachments'
 import { useFileViewer } from '../components/ui/FileViewer'
+import { generateAuditChecklistPDF } from '../utils/pdfExport'
 import StatCard from '../components/ui/StatCard'
 
 export default function AuditChecklists() {
@@ -45,6 +46,12 @@ export default function AuditChecklists() {
           <div className="page-subtitle">BSCI · WRAP · RSC — AUDIT READINESS TRACKER</div>
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <button className="btn btn-ghost" onClick={() => {
+            generateAuditChecklistPDF({ checklist: list, listType: listKey.toUpperCase(), factory: 'Khaled Textiles Ltd.' })
+            toast(`${listKey.toUpperCase()} checklist PDF downloaded`, 'green')
+          }}>
+            ↓ Export PDF
+          </button>
           <span style={{ fontSize: 12, color: 'var(--text3)', fontFamily: 'IBM Plex Mono' }}>Showing:</span>
           <select
             className="search-input"

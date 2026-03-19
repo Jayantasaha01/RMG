@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useApp } from '../store/AppContext'
 import { useToast } from '../hooks/useToast'
 import { useAttachments } from '../hooks/useAttachments'
+import { generateIncidentLogPDF } from '../utils/pdfExport'
 import Modal from '../components/ui/Modal'
 import UploadZone from '../components/ui/UploadZone'
 import FileChip from '../components/ui/FileChip'
@@ -65,9 +66,17 @@ export default function Incidents() {
           <div className="page-title">Incident & Accident Log</div>
           <div className="page-subtitle">BSCI REQUIREMENT — ALL INCIDENTS MUST BE DOCUMENTED</div>
         </div>
-        <button className="btn btn-primary" onClick={openAdd}>
-          <PlusIcon /> Log Incident
-        </button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button className="btn btn-ghost" onClick={() => {
+            generateIncidentLogPDF({ incidents: state.incidents, factory: 'Khaled Textiles Ltd.' })
+            toast('Incident log PDF downloaded', 'green')
+          }}>
+            ↓ Export PDF
+          </button>
+          <button className="btn btn-primary" onClick={openAdd}>
+            <PlusIcon /> Log Incident
+          </button>
+        </div>
       </div>
 
       <div className="stats-grid stats-grid-4">

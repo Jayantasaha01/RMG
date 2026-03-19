@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useApp } from '../store/AppContext'
 import { stableOT } from '../utils/helpers'
+import { generateWageRegisterPDF } from '../utils/pdfExport'
 import Badge from '../components/ui/Badge'
 import { useToast } from '../hooks/useToast'
 
@@ -42,7 +43,10 @@ export default function WageRegister() {
           <select className="search-input" style={{ maxWidth: 180 }} value={month} onChange={e => setMonth(e.target.value)}>
             {MONTHS.map(m => <option key={m}>{m}</option>)}
           </select>
-          <button className="btn btn-ghost" onClick={() => toast('Wage register PDF exported', 'green')}>
+          <button className="btn btn-ghost" onClick={() => {
+            generateWageRegisterPDF({ workers: rows, month, factory: 'Khaled Textiles Ltd.' })
+            toast('Wage register PDF downloaded', 'green')
+          }}>
             ↓ Export PDF
           </button>
         </div>

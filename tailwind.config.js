@@ -9,21 +9,24 @@ export default {
         display: ['"Space Grotesk"', 'sans-serif'],
       },
       colors: {
-        bg:      '#0a0e0a',
-        bg2:     '#111811',
-        bg3:     '#161f16',
-        bg4:     '#1e281e',
-        green:   '#4ade80',
-        amber:   '#fbbf24',
-        red:     '#f87171',
-        blue:    '#60a5fa',
-        text1:   '#e8f0e8',
-        text2:   '#9aad9a',
-        text3:   '#5c6e5c',
-      },
-      borderColor: {
-        DEFAULT: 'rgba(74,122,74,0.18)',
-        strong:  'rgba(74,122,74,0.32)',
+        // Light app
+        bg:      '#f7f8ff',
+        bg2:     '#ffffff',
+        bg3:     '#f0f3ff',
+        bg4:     '#e6ebff',
+        // Primary blue
+        primary: '#3b82f6',
+        // Secondary purple
+        purple:  '#7c3aed',
+        // Deep navy (landing/admin sidebar)
+        navy:    '#0b0f2e',
+        // Text
+        text1:   '#0f172a',
+        text2:   '#475569',
+        text3:   '#94a3b8',
+        // Semantic
+        amber:   '#f59e0b',
+        red:     '#ef4444',
       },
     },
   },

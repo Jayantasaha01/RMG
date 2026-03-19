@@ -1,10 +1,13 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useApp } from '../../store/AppContext'
+import { useAuth } from '../../auth/AuthContext'
 
 const MIN_WAGE = 12500
 
 export default function Sidebar() {
   const { state } = useApp()
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
 
   // Live badge counts
   const certWarnings = state.certs.filter(c => {
@@ -27,9 +30,9 @@ export default function Sidebar() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div className="logo-icon">
             <svg viewBox="0 0 16 16" fill="none" width="16" height="16">
-              <rect x="2" y="6" width="5" height="8" rx="1" fill="#0a0e0a"/>
-              <rect x="9" y="3" width="5" height="11" rx="1" fill="#0a0e0a"/>
-              <path d="M1 14.5h14" stroke="#0a0e0a" strokeWidth="1.5" strokeLinecap="round"/>
+              <rect x="2" y="6" width="5" height="8" rx="1" fill="white"/>
+              <rect x="9" y="3" width="5" height="11" rx="1" fill="white"/>
+              <path d="M1 14.5h14" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
           </div>
           <div>
@@ -83,9 +86,14 @@ export default function Sidebar() {
           <IncidentIcon /> Incident Log
           {openIncidents > 0 && <span className="nav-badge red">{openIncidents}</span>}
         </NavLink>
+
+        <div className="nav-group-lbl">Account</div>
+        <NavLink to="/settings" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}>
+          <SettingsIcon /> Settings
+        </NavLink>
       </nav>
 
-      {/* BSCI score footer */}
+      {/* Footer — user info + settings + admin */}
       <div className="sidebar-footer">
         <div className="score-mini">
           <div style={{ fontSize: 10, color: 'var(--text3)', fontFamily: 'IBM Plex Mono', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
@@ -95,6 +103,43 @@ export default function Sidebar() {
           <div className="score-mini-bar">
             <div className="score-mini-fill" style={{ width: `${score}%` }} />
           </div>
+        </div>
+
+        {/* Settings */}
+        <NavLink
+          to="/settings"
+          className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
+          style={{ marginTop: 8 }}
+        >
+          <SettingsIcon /> Settings
+        </NavLink>
+
+        {/* Admin console (admin only) */}
+        {user?.role === 'admin' && (
+          <NavLink
+            to="/admin"
+            style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6, padding: '6px 8px', borderRadius: 6, fontSize: 11, color: 'var(--amber)', fontFamily: 'IBM Plex Mono', textDecoration: 'none', border: '1px solid rgba(251,191,36,0.2)', background: 'rgba(251,191,36,0.06)' }}
+          >
+            <span>⚙</span> Admin Console
+          </NavLink>
+        )}
+
+        {/* User chip + logout */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, padding: '8px 6px', borderTop: '1px solid var(--border)' }}>
+          <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--green-muted)', border: '1px solid rgba(74,222,128,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: 'var(--green)', flexShrink: 0 }}>
+            {user?.name?.charAt(0) || 'U'}
+          </div>
+          <div style={{ flex: 1, overflow: 'hidden' }}>
+            <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name || 'User'}</div>
+            <div style={{ fontSize: 10, color: 'var(--text3)', fontFamily: 'IBM Plex Mono', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.role}</div>
+          </div>
+          <button
+            title="Sign out"
+            onClick={() => { logout(); navigate('/login') }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text3)', fontSize: 14, padding: '2px 4px', borderRadius: 4, flexShrink: 0 }}
+          >
+            ⏏
+          </button>
         </div>
       </div>
     </aside>
@@ -140,5 +185,11 @@ const IncidentIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
     <path d="M8 2L14 13H2L8 2z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
     <path d="M8 7v3M8 11.5v.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+  </svg>
+)
+const SettingsIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.42 1.42M11.53 11.53l1.42 1.42M3.05 12.95l1.42-1.42M11.53 4.47l1.42-1.42" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
   </svg>
 )

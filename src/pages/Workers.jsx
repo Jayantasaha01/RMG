@@ -3,6 +3,7 @@ import { useApp } from '../store/AppContext'
 import { useToast } from '../hooks/useToast'
 import { useAttachments } from '../hooks/useAttachments'
 import { nextWorkerId } from '../utils/helpers'
+import { generateWorkerRecordsPDF } from '../utils/pdfExport'
 import Modal from '../components/ui/Modal'
 import UploadZone from '../components/ui/UploadZone'
 import WorkerDrawer from '../components/ui/WorkerDrawer'
@@ -90,9 +91,17 @@ export default function Workers() {
           <div className="page-title">Worker Records</div>
           <div className="page-subtitle">NID VERIFIED · AUDIT READY</div>
         </div>
-        <button className="btn btn-primary" onClick={openAdd}>
-          <PlusIcon /> Add Worker
-        </button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button className="btn btn-ghost" onClick={() => {
+            generateWorkerRecordsPDF({ workers: state.workers, factory: 'Khaled Textiles Ltd.' })
+            toast('Worker records PDF downloaded', 'green')
+          }}>
+            ↓ Export PDF
+          </button>
+          <button className="btn btn-primary" onClick={openAdd}>
+            <PlusIcon /> Add Worker
+          </button>
+        </div>
       </div>
 
       {/* Table card */}
